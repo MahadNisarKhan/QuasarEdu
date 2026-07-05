@@ -1,0 +1,5 @@
+*.resx linguist-detectable=false
+*.Designer.cs linguist-generated=true
+*.dll linguist-detectable=false
+*.wav linguist-detectable=false
+*.sql linguist-detectable=false
