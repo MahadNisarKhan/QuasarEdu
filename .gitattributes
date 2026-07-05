@@ -1,1 +1,3 @@
+*.resx linguist-detectable=false
 *.Designer.cs linguist-generated=true
+*.csproj linguist-detectable=false
