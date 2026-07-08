@@ -1,4 +1,0 @@
-*.cs linguist-language=C#
-*.Designer.cs linguist-generated=true
-*.resx linguist-generated=true
-wwwroot/* linguist-vendored=true
