@@ -1,1 +1,1 @@
-Read User Manual for instructions on how to run and use the application.
+Read User Manual for instructions on how to run & use the application.
