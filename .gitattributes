@@ -1,5 +1,7 @@
-# Tell Linguist to ignore the Cloudflare folder (HTML/JS files)
-Cloudflare/** linguist-vendored
+# Ignore any wwwroot inside the API project
+API/**/wwwroot/** linguist-vendored
+API/**/bin/** linguist-vendored
+API/**/obj/** linguist-vendored
 
 # Force C# to be detected
 *.cs linguist-detectable=true
