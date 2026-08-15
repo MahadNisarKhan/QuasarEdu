@@ -1,5 +1,4 @@
 # Ignore any wwwroot inside the API project
-API/**/wwwroot/** linguist-vendored
 API/**/bin/** linguist-vendored
 API/**/obj/** linguist-vendored
 
