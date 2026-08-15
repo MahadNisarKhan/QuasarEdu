@@ -1,6 +1,5 @@
 # Ignore any wwwroot inside the API project
-API/**/bin/** linguist-vendored
-API/**/obj/** linguist-vendored
+API/**/wwwroot/** linguist-vendored
 
 # Force C# to be detected
 *.cs linguist-detectable=true
