@@ -147,6 +147,13 @@ QuasarEdu/
 └── QuasarEdu — User Manual.pdf # Setup and usage guide
 ```
 
+### Entity-Relationship Diagram (EERD)
+
+![EERD](screenshots/EERD.jpg)
+
+
+
+
 ---
 
 ## Database
