@@ -302,133 +302,133 @@ The schema includes ~60 stored procedures and one view (`vw_FingerprintStatus`).
 
 ## UI Walkthrough
 
-### Form 1 — Loading Screen
-Animated splash screen displayed while the application initialises. A progress bar advances from 0–100% before transitioning to the Login form.
-
-![Loading Screen](screenshots/01_Loading_Screen.png)
-
----
-
 ### Form 2 — Login
-Authenticates an existing user and routes them to the correct dashboard based on their role (Student / Admin). Includes brute-force lockout after 5 failed attempts.
+Authenticates an existing user and routes them to the correct dashboard based on their role (Student / Admin). Includes brute-force lockout after 5 consecutive failed attempts.
 
-![Login](screenshots/02_Login.png)
+![Login](screenshots/02_Login.jpg)
 
 ---
 
 ### Form 3 — Register
 Creates a new student account. On submit, a 6-digit OTP is sent to the provided email and the OTP Verification form opens automatically.
 
-![Register](screenshots/03_Register.png)
+![Register](screenshots/03_Register.jpg)
 
 ---
 
 ### Form 4 — OTP Verification
-Verifies that the email address belongs to the registrant. Six individual digit boxes auto-advance focus. A 5-minute countdown is shown; OTP can be resent if it expires.
+Verifies that the email address belongs to the registrant. A 5-minute countdown is shown with an option to resend if the OTP expires. On success, `IsVerified` is set to `1` in the Users table.
 
-![OTP Verification](screenshots/04_OTP_Verification.png)
+![OTP Verification](screenshots/04_OTP_Verification.jpg)
 
 ---
 
 ### Form 5 — Student Dashboard
-Central hub for student navigation. Displays a welcome banner with identity verification status, four stat tiles (total scholarships, applications submitted, approved, pending), and a live list of top eligible scholarships with Apply and Save buttons.
+Central hub for student navigation. Displays a welcome banner with the student's name, a live list of eligible scholarships filtered and color-coded by eligibility strength, and quick-action buttons for Apply, Save for Later, My Applications, Notifications, and PDF Receipt.
 
-![Student Dashboard](screenshots/05_Student_Dashboard.png)
+![Student Dashboard](screenshots/05_Student_Dashboard.jpg)
 
 ---
 
 ### Form 6 — Student Profile
-Multi-tab form for students to fill in all personal, academic, and financial data required for eligibility evaluation. Includes an **Auto Fill** button that uses Google Gemini Vision to extract fields from uploaded documents, and a **Verify Identity** button that sends a mobile verification link.
+Multi-tab form covering Personal Info, Academic, Bio & Address, Education, and Documents. Includes an **Auto Fill** button (Google Gemini Vision OCR) and a **Verify Identity** button that sends a one-time mobile verification link. All 13 mandatory fields must be filled before any scholarship application is accepted.
 
-![Student Profile](screenshots/06_Student_Profile.png)
+![Student Profile](screenshots/06_Student_Profile.jpg)
 
 ---
 
 ### Form 7 — Apply for Scholarship
-Lets an eligible student submit an application for a specific scholarship. Shows read-only scholarship details, an optional personal statement field, a required document checklist, and the Submit Application button which calls `sp_SubmitApplication`.
+Lets an eligible student submit an application. Shows scholarship details (read-only), an optional personal statement, and any previous admin feedback. Calls the `sp_SubmitApplication` stored procedure on submit.
 
-![Apply for Scholarship](screenshots/07_Apply_for_Scholarship.png)
+![Apply for Scholarship](screenshots/07_Apply_for_Scholarship.jpg)
 
 ---
 
 ### Form 8 — My Applications
-Displays all past and current applications of the logged-in student. Status is colour-coded (green = Approved, red = Rejected, amber = Pending). Supports withdraw, reapply, and PDF receipt download actions.
+Displays the full application history of the logged-in student. Status is colour-coded (green = Approved, red = Rejected, amber = Pending). Contextual action buttons (Withdraw, Reapply, Continue Draft, Download PDF Receipt) appear based on each row's status.
 
-![My Applications](screenshots/08a_My_Applications.png)
+![My Applications](screenshots/08a_My_Applications.jpg)
 
-![My Applications — Multiple Statuses](screenshots/08b_My_Applications_Draft.png)
+![My Applications — Draft Highlighted](screenshots/08b_My_Applications_Draft.jpg)
 
-![My Applications — Approved View](screenshots/08c_My_Applications_Approved.png)
+![My Applications — Approved View](screenshots/08c_My_Applications_Approved.jpg)
 
 ---
 
 ### Form 9 — Admin Dashboard
-Complete operational overview for administrators. Four live KPI tiles, a scholarships management tab, an applications review tab, a students list tab, a documents tab, and a notifications broadcast panel.
+Complete operational overview. Four live KPI tiles (Total Scholarships, Total Applications, Pending Reviews, Approval Rate %) and tabbed access to Scholarships, Applications, Students, Documents, and Charts.
 
-![Admin Dashboard](screenshots/09_Admin_Dashboard.png)
+![Admin Dashboard](screenshots/09_Admin_Dashboard.jpg)
+
+---
+
+### Form 10 — Approve / Reject Application (Pending Applications)
+Admin review queue showing all pending applications with full student and scholarship details. Admins can Approve, Reject, view Documents, View Profile, or generate a PDF Receipt directly from this form.
+
+![Approve Reject Application](screenshots/10_Approve_Reject.jpg)
 
 ---
 
 ### Form 11 — Add / Edit Scholarship
-Create or modify a scholarship record. Fields include title, description, eligibility text, amount (PKR), deadline, minimum CGPA, maximum family income, degree program, semester/year, need-based flag, required documents, and active status.
+Create or modify a scholarship record. Configurable fields include title, description, eligibility criteria, amount (PKR), deadline, minimum CGPA, maximum family income, degree program, semester/year, need-based flag, required documents list, and active status.
 
-![Add Edit Scholarship](screenshots/11_Add_Edit_Scholarship.png)
+![Add Edit Scholarship](screenshots/11_Add_Edit_Scholarship.jpg)
 
 ---
 
 ### Form 12 — Notifications
-Student notification inbox. Unread notifications are highlighted in light blue; read ones appear in white. A "Mark All Read" button sets all unread entries to read in one click.
+Student notification inbox. Unread rows are highlighted in light blue; read rows appear in white. A "Mark All Read" button sets all unread entries to read in one click. The bell icon on the dashboard shows a live unread count badge.
 
 ![Notifications](screenshots/12_Notifications.png)
 
 ---
 
 ### Form 13 — Document Upload / Viewer
-Upload and review documents associated with scholarship applications. Supports image preview for JPG/PNG and shows file name for PDFs. A grid lists all previously uploaded documents with type and upload date.
+Documents tab within the Student Profile. Lists all previously uploaded documents (ID, type, file name, upload date) with options to upload new files, refresh, and delete selected entries. Accepted formats: `.pdf`, `.jpg`, `.jpeg`, `.png`.
 
-![Document Upload](screenshots/13_Document_Upload.png)
+![Document Upload](screenshots/13_Document_Upload.jpg)
 
 ---
 
-### Form 14 — Forgot Password
-Password reset via email OTP. The email field is locked after OTP dispatch to prevent email-swap attacks. New password must be at least 6 characters; BCrypt-hashed before storage.
+### Form 14 — Forgot Password / Reset Password
+Password reset via email OTP. The email field locks after OTP dispatch to prevent email-swap attacks. New password requires a minimum of 6 characters and is BCrypt-hashed before storage.
 
-![Forgot Password](screenshots/14_Forgot_Password.png)
+![Forgot Password](screenshots/14_Forgot_Password.jpg)
 
 ---
 
 ### Form 15 — Student List (Admin)
-Searchable, filterable list of all registered students. Admins can filter by name, CNIC, department, degree program, max family income, and minimum CGPA. Double-clicking a row opens the Student Profile Popup.
+Searchable, filterable list of all registered students. Admins can filter by name, CNIC, department, degree program, max family income, and minimum CGPA. Double-clicking any row opens the full Student Profile Popup.
 
-![Student List](screenshots/15_Student_List.png)
+![Student List](screenshots/15_Student_List.jpg)
 
 ---
 
 ### Form 16 — Student Profile Popup (Admin)
-Read-only field-value grid displaying a student's complete profile in a modal dialog. Derives an identity verification status row from the `FingerprintTemplate` field and renders all dates in `dd MMM yyyy` format.
+Read-only field-value grid showing a student's complete profile in a modal dialog. Derives an identity verification status from the `FingerprintTemplate` field and renders all dates in `dd MMM yyyy` format.
 
-![Student Profile Popup](screenshots/16_Student_Profile_Popup.png)
+![Student Profile Popup](screenshots/16_Student_Profile_Popup.jpg)
 
 ---
 
 ### Form 17 — All Documents (Admin)
-View, open, and print all uploaded documents across all students. Available in both global admin mode (all students) and per-student mode. Each row shows student email, document type, file name, and upload date.
+View, open, and print uploaded documents across all students. Each row shows student email, document type, file name, and upload date. Includes file-existence validation before opening or printing.
 
-![All Documents](screenshots/17_All_Documents.png)
+![All Documents](screenshots/17_All_Documents.jpg)
 
 ---
 
 ### Form 18 — Toast Notifications
-Non-blocking, auto-dismissing overlay notifications in four severity variants: Success (emerald), Error (red), Info (blue), and Warning (amber). Toasts stack top-right and auto-close after 3–4 seconds.
+Non-blocking, auto-dismissing overlay notifications in four severity variants: **Success** (emerald), **Error** (red), **Info** (blue), and **Warning** (amber). Toasts stack top-right and auto-close after 3–4 seconds.
 
-![Toast Notification](screenshots/18_Toast_Notification.png)
+![Toast Notification](screenshots/18_Toast_Notification.jpg)
 
 ---
 
 ### Form 19 — QuasarEdu Assistant (Chatbot)
-Always-available floating AI chatbot powered by Google Gemini. Strictly limited to QuasarEdu scholarship topics — off-topic queries receive a fixed redirect message. Supports Urdu. Retains the last 20 conversation turns per session.
+Always-available floating AI chatbot powered by Google Gemini. Hard-limited by system prompt to QuasarEdu scholarship topics only — off-topic queries receive a fixed redirect message. Supports Urdu. Retains the last 20 conversation turns per session.
 
-![Chatbot](screenshots/19_Chatbot.png)
+![Chatbot](screenshots/19_Chatbot.jpg)
 
 ---
 
@@ -441,3 +441,5 @@ A full user manual covering installation, configuration, and usage for both stud
 ---
 
 *© 2026 Project QuasarX | QuasarEdu. All rights reserved.*
+
+> ⚠️ This project was developed for **educational purposes only** as part of a university coursework.
