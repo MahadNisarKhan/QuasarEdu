@@ -440,4 +440,4 @@ A full user manual covering installation, configuration, and usage for both stud
 
 *© 2026 Project QuasarX | QuasarEdu. All rights reserved.*
 
-> ⚠️ This project was developed for **educational purposes only** as part of a university coursework.
+> ⚠️ This project was developed for **educational purposes only** as part of a university coursework and available under the [MIT License].
