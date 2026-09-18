@@ -98,48 +98,69 @@ QuasarEdu is a dual-platform scholarship management system built with a **Window
 ---
 
 ## 🏗️ Architecture
-┌─────────────────────────────────────────────────┐
-│ Windows Forms Desktop Client │
-│ (Students & Admins — C# / .NET 10) │
-│ │
-│ Models → Repositories → Services → Forms │
-└────────────────────┬────────────────────────────┘
-│ ADO.NET (SqlClient)
-▼
-┌──────────────────────┐
-│ Microsoft SQL Server │
-│ (database: ft) │
-│ ~60 Stored Procs │
-└──────────────────────┘
 
-┌─────────────────────────────────────────────────┐
-│ ASP.NET Core Minimal API (.NET 8) │
-│ Identity & Fingerprint Verification Endpoint │
-│ Exposed via Cloudflare Tunnel (HTTPS) │
-└─────────────────────────────────────────────────┘
-▲
-│ HTTPS (from student's smartphone browser)
-│
-Mobile Web Verification Page
-(Face selfie + Fingerprint / Biometric / PIN)
+``` text
+┌─────────────────────────────────────────────────────────────┐
+│              Windows Forms Desktop Client                   │
+│              (Students & Admins — C# / .NET 10)             │
+│                                                             │
+│       Models → Repositories → Services → Forms              │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ ADO.NET (SqlClient)
+                               ▼
+                    ┌─────────────────────────┐
+                    │    Microsoft SQL Server  │
+                    │       (database: ft)    │
+                    │       ~60 Stored Procs  │
+                    └─────────────────────────┘
 
----
+
+┌─────────────────────────────────────────────────────────────┐
+│            ASP.NET Core Minimal API (.NET 8)                │
+│                                                             │
+│       Identity & Fingerprint Verification Endpoint          │
+│                                                             │
+│       Exposed via Cloudflare Tunnel (HTTPS)                 │
+└──────────────────────────────┬──────────────────────────────┘
+                               ▲
+                               │ HTTPS
+                               │
+                ┌──────────────┴──────────────┐
+                │   Student's Smartphone      │
+                │        Web Browser          │
+                └──────────────┬──────────────┘
+                               │
+                               ▼
+                ┌─────────────────────────────┐
+                │ Mobile Web Verification     │
+                │ Page                        │
+                │                             │
+                │ Face Selfie + Fingerprint   │
+                │ Biometric / PIN             │
+                └─────────────────────────────┘
+```
 
 ## 📁 Project Structure
+
+``` text
 QuasarEdu/
-├── WindowsForms/ # Main desktop application
-│ ├── Models/ # Entity classes (User, Student, Scholarship, etc.)
-│ ├── Repositories/ # Data access layer (UserRepo, StudentRepo, etc.)
-│ ├── Services/ # Business logic (Receipt, Document, Gemini, etc.)
-│ └── Forms/ # All WinForms UI (19 forms)
 │
-├── API/ # ASP.NET Core Minimal API
-│ └── Program.cs # All endpoints and record types in single file
+├── WindowsForms/                  # Main desktop application
+│   ├── Models/                    # Entity classes (User, Student, Scholarship, etc.)
+│   ├── Repositories/              # Data access layer (UserRepo, StudentRepo, etc.)
+│   ├── Services/                  # Business logic (Receipt, Document, Gemini, etc.)
+│   └── Forms/                     # All WinForms UI (19 forms)
 │
-├── Cloudflare/ # Cloudflare Tunnel binary & config
+├── API/                           # ASP.NET Core Minimal API
+│   └── Program.cs                 # All endpoints and record types in single file
 │
-├── Database QuasarEdu.sql # Full database schema + all stored procedures
-└── QuasarEdu — User Manual.pdf # Setup and usage guide
+├── Cloudflare/                    # Cloudflare Tunnel binary & config
+│
+├── Database QuasarEdu.sql         # Full database schema + all stored procedures
+│
+└── QuasarEdu — User Manual.pdf   # Setup and usage guide
+```
 
 ### 🗂️ Entity-Relationship Diagram (EERD)
 
